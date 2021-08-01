@@ -22,25 +22,25 @@ def index():
             flipkartPage = uClient.read()
             uClient.close()
             flipkart_html = bs(flipkartPage, "html.parser")
-            bigboxes = flipkart_html.findAll("div", {"class": "bhgxx2 col-12-12"})
+            bigboxes = flipkart_html.findAll("div", {"class": "_2kHMtA"})
             del bigboxes[0:3]
             box = bigboxes[0]
-            productLink = "https://www.flipkart.com" + box.div.div.div.a['href']
+            productLink = "https://www.flipkart.com" + box.a['href']
             prodRes = requests.get(productLink)
             prodRes.encoding='utf-8'
             prod_html = bs(prodRes.text, "html.parser")
             #print(prod_html)
-            commentboxes = prod_html.find_all('div', {'class': "_3nrCtb"})
+            commentboxes = prod_html.find_all('div', {'class': "_16PBlm"})
 
             filename = searchString + ".csv"
             fw = open(filename, "w")
             headers = "Product, Customer Name, Rating, Heading, Comment \n"
             fw.write(headers)
             reviews = []
-            for commentbox in commentboxes:
+            for commentbox in commentboxes[:-1]:
                 try:
                     #name.encode(encoding='utf-8')
-                    name = commentbox.div.div.find_all('p', {'class': '_3LYOAd _3sxSiS'})[0].text
+                    name = commentbox.div.div.find_all('p', {'class': '_2sc7ZR _2V5EHH'})[0].text
 
                 except:
                     name = 'No Name'
